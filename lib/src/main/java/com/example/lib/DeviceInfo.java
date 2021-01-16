@@ -7,6 +7,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.provider.Settings;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,6 @@ public class DeviceInfo {
     @SuppressLint("HardwareIds")
     private static String resolveAndroidId(Context context) {
         // android_id is stored inside Settings.Secure
-        // accessed via Secure.getString(ContentResolver, Secure.ANDROID_ID)
         return Settings.Secure.getString(context.getContentResolver(), "android_id");
     }
 
@@ -38,11 +38,27 @@ public class DeviceInfo {
 
         for (int i = 0; i < package_count; i++) {
             PackageInfo package_info = package_info_list.get(i);
-            boolean is_system = ((package_info.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
-            AppPackage app_package = new AppPackage(package_info.packageName, 10, is_system);
+            ApplicationInfo app_info = package_info.applicationInfo;
+
+            String package_name = package_info.packageName;
+            // size in bytes
+            long apk_size = packageApkSize(app_info);
+            boolean is_system = ((app_info.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
+
+            AppPackage app_package = new AppPackage(package_name, apk_size, is_system);
             app_package_list.add(app_package);
         }
         return app_package_list;
+    }
+
+    private static Long packageApkSize(ApplicationInfo app_info) {
+        try {
+            File file = new File(app_info.sourceDir);
+            return file.length();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return (long) 0;
+        }
     }
 
     private static native String getAndroidIdFromJNI(Context context);
