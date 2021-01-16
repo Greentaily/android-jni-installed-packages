@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import com.example.lib.ApplicationPackage;
+import com.example.lib.AppPackage;
 
 public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.ViewHolder> {
-    PackageListAdapter(List<ApplicationPackage> packages) {
+    PackageListAdapter(List<AppPackage> packages) {
         this.packages = packages;
     }
 
@@ -56,5 +56,5 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
         }
     }
 
-    private List<ApplicationPackage> packages;
+    private List<AppPackage> packages;
 }

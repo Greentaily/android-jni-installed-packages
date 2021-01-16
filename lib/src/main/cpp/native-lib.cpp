@@ -32,7 +32,7 @@ Java_com_example_lib_DeviceInfo_getInstalledPackagesFromJNI(JNIEnv* env, jclass,
     jfieldID ai_flags = env->GetFieldID(ai_class, "flags", "I");
     jfieldID ai_flag_system = env->GetStaticFieldID(ai_class, "FLAG_SYSTEM", "I");
     /* Class com.example.lib.Package */
-    jclass lib_package_class = env->FindClass("com/example/lib/ApplicationPackage");
+    jclass lib_package_class = env->FindClass("com/example/lib/AppPackage");
     jmethodID lib_package_constructor = env->GetMethodID(lib_package_class, "<init>","(Ljava/lang/String;IZ)V");
 
     /* Retrieve data and populate new List with instances of Package */

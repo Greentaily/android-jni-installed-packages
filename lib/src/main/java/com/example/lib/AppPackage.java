@@ -1,7 +1,7 @@
 package com.example.lib;
 
-public class ApplicationPackage {
-    public ApplicationPackage(String name, int size, boolean isSystem) {
+public class AppPackage {
+    public AppPackage(String name, int size, boolean isSystem) {
         this.name = name;
         this.size = size;
         this.isSystem = isSystem;

@@ -12,10 +12,10 @@ public class DeviceInfo {
         return getDeviceSerialFromJNI(context);
     }
 
-    public static List<ApplicationPackage> getPackages(Context context) {
+    public static List<AppPackage> getPackages(Context context) {
         return getInstalledPackagesFromJNI(context);
     }
 
     private static native String getDeviceSerialFromJNI(Context context);
-    private static native List<ApplicationPackage> getInstalledPackagesFromJNI(Context context);
+    private static native List<AppPackage> getInstalledPackagesFromJNI(Context context);
 }
