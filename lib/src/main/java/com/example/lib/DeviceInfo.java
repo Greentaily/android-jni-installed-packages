@@ -9,13 +9,13 @@ public class DeviceInfo {
         System.loadLibrary("native-lib");
     }
     public static String getAndroidId(Context context) {
-        return getDeviceSerialFromJNI(context);
+        return getAndroidIdFromJNI(context);
     }
 
     public static List<AppPackage> getPackages(Context context) {
         return getInstalledPackagesFromJNI(context);
     }
 
-    private static native String getDeviceSerialFromJNI(Context context);
+    private static native String getAndroidIdFromJNI(Context context);
     private static native List<AppPackage> getInstalledPackagesFromJNI(Context context);
 }

@@ -2,9 +2,18 @@
 #include <string>
 
 extern "C" JNIEXPORT jstring JNICALL
-Java_com_example_lib_DeviceInfo_getDeviceSerialFromJNI(JNIEnv* env, jclass, jobject context) {
-    std::string id = "123";
-    return env->NewStringUTF(id.c_str());
+Java_com_example_lib_DeviceInfo_getAndroidIdFromJNI(JNIEnv* env, jclass, jobject context) {
+    // android_id is stored inside Settings.Secure
+    // accessed via Secure.getString(ContentResolver, Secure.ANDROID_ID)
+    jclass secure_class = env->FindClass("android/provider/Settings$Secure");
+    jclass context_class = env->FindClass("android/content/Context");
+    jmethodID context_get_content_resolver = env->GetMethodID(context_class, "getContentResolver", "()Landroid/content/ContentResolver;");
+    jmethodID secure_get_string = env->GetStaticMethodID(secure_class, "getString", "(Landroid/content/ContentResolver;Ljava/lang/String;)Ljava/lang/String;");
+
+    jobject content_resolver = env->CallObjectMethod(context, context_get_content_resolver);
+    jobject android_id = env->CallStaticObjectMethod(secure_class, secure_get_string, content_resolver, env->NewStringUTF("android_id"));
+    // not dynamic_cast as the cast is valid regardless
+    return static_cast<jstring>(android_id);
 }
 
 extern "C" JNIEXPORT jobject JNICALL
@@ -56,12 +65,8 @@ Java_com_example_lib_DeviceInfo_getInstalledPackagesFromJNI(JNIEnv* env, jclass,
         jint application_flags = env->GetIntField(application_info, ai_flags);
         jboolean package_is_system = application_flags & application_system_flag;
         // new Package
-        jobject lib_package = env->NewObject(
-                lib_package_class,
-                lib_package_constructor,
-                package_name,
-                package_size,
-                package_is_system);
+        jobject lib_package = env->NewObject(lib_package_class, lib_package_constructor,
+                                             package_name, package_size, package_is_system);
         env->CallBooleanMethod(output_package_list, list_add, lib_package);
     }
     return output_package_list;
