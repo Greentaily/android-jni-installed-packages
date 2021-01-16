@@ -56,5 +56,5 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
         }
     }
 
-    private List<AppPackage> packages;
+    private final List<AppPackage> packages;
 }
