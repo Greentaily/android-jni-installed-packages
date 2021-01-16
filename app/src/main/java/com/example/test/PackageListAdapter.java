@@ -38,8 +38,8 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
         TextView isSystem_view = holder.isSystem_view;
 
         name_view.setText(packages.get(position).name);
-        size_view.setText("Размер: " + String.valueOf(packages.get(position).size) + "Б");
-        isSystem_view.setText(packages.get(position).isSystem ? "Системный" : "Пользовательский");
+        size_view.setText("Size: " + String.valueOf(packages.get(position).size) + " bytes");
+        isSystem_view.setText(packages.get(position).isSystem ? "System" : "User");
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
